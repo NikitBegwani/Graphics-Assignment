@@ -1,0 +1,6 @@
+Branch:branch_name,branch_city,assets
+Customer:customer_name,customer_street,customer_city
+Loan:loan_number,branch_name,loan_amount
+Borrower:customer_name,loan_number
+Account:account_number,branch_name,balance
+Depositor:customer_name,account_number

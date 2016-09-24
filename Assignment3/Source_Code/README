@@ -1,0 +1,16 @@
+Prerequisite:
+----------------------------
+
+OS: Linux
+Required Software installation: JFLEX, BYACC, MySQL, jdk, NetBeans.
+
+Running Program:
+----------------------------
+
+1. Import the NLPv2 project in netbeans.
+2. Open terminal. 
+3. Go to the directory NLPv2/src/nlp2/   and run make on terminal.
+4. Open NetBeans.
+5. Add jar files available in "drivers directory".
+6. Run the program by selecting the "ConvertInterface.java" as the main class.
+

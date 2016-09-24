@@ -1,0 +1,1 @@
+select distinct branch_name from Branch
