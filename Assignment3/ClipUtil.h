@@ -3,6 +3,11 @@
 #define ID_EXIT           40003
 #define ID_DRAW_LINE      40004
 #define ID_CLIP           40005
+#define ID_OK       	  40006
+#define ID_CANCEL         40007
+#define ID_NUMBER         40008
+#define ID_LABEL1         40009
+
 
 const COLORREF CLR_BG = RGB(255,255,255);
 const COLORREF CLR_RECT = RGB(255, 0, 0);
@@ -27,6 +32,8 @@ typedef struct
   POINT clipMin, clipMax;
   POINT lineEndPts[2];
   SIZE maxBoundary;
+  int number;
+//  int count = -1;
 } DRAWING_DATA;
 
 extern DRAWING_DATA gDrawData; // global data

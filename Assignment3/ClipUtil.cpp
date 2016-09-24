@@ -3,6 +3,8 @@
 #include "ClipUtil.h"
 #include "Line.h"
 
+LRESULT CALLBACK NumberOfLines(HWND hdlg,UINT mess,WPARAM more,LPARAM pos);
+
 DRAWING_DATA gDrawData; // global data
 
 void reDraw(HWND hwnd)
@@ -322,6 +324,7 @@ void processCommand(int cmd, HWND hwnd)
   switch(cmd)
   {
     case ID_DRAW_LINE:
+      DialogBox(NULL,"MyDB",hwnd,(DLGPROC)NumberOfLines);    
       if (isValidRectangle(gDrawData.beginPt, gDrawData.endPt))
       {
         //valid rectangle, then switch to next mode
@@ -340,6 +343,7 @@ void processCommand(int cmd, HWND hwnd)
      setDrawMode(DRAW_RECTANGLE_MODE, hwnd);
      break;
     case ID_CLIP:
+      
       if (isValidLine(gDrawData.beginPt, gDrawData.endPt))
       {
         // valid line, then switch to next mode
@@ -361,6 +365,44 @@ void processCommand(int cmd, HWND hwnd)
       return;
   }
 }
+
+
+LRESULT CALLBACK NumberOfLines(HWND hdlg,UINT mess,WPARAM more,LPARAM pos)
+{
+  	char str[20];
+  	switch(mess)
+  	{
+	    case WM_COMMAND:
+	     	switch(more)
+	      	{
+		        case ID_OK:
+	    		    GetDlgItemText(hdlg,ID_NUMBER,str,20);
+	          		gDrawData.number=(long int)(atof(str));
+	          		if(gDrawData.number < 1 || 
+	             		gDrawData.number > 10 )
+	          		{
+	            		MessageBox(hdlg,
+	              		"Number should be between 1 and 10.", 
+	              		"Warning!",MB_ICONERROR);
+	          		} 
+	          		else{
+	          			EndDialog(hdlg,TRUE);
+			  		}
+	          
+	          		return 1;
+	          		break;
+
+        		case ID_CANCEL:
+          			EndDialog(hdlg,TRUE);
+          			break;
+      		}
+      		break;
+    	default:
+      		break;
+  	}	
+  	return 0;
+}
+
 
 LRESULT CALLBACK WindowF(HWND hwnd,UINT message,WPARAM wParam,
                          LPARAM lParam) 

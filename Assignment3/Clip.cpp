@@ -70,8 +70,8 @@ void scLineClip(POINT start, POINT end)
         end.y=i+u2*dy;
         
         //Three methods here
-        //drawLineSegment(gDrawData.hdcMem, start2, end2, CLR_BG);
-        //drawLineSegment(gDrawData.hdcMem, start, end, CLR_LINE);
+        drawLineSegment(gDrawData.hdcMem, start2, end2, CLR_BG);
+        drawLineSegment(gDrawData.hdcMem, start, end, CLR_LINE);
         
         //drawLineSegment(gDrawData.hdcMem, start2, start, CLR_BG);
         //drawLineSegment(gDrawData.hdcMem, end2, end, CLR_BG);

@@ -3,7 +3,7 @@
 
 extern LRESULT CALLBACK WindowF (HWND,UINT,WPARAM,LPARAM);
 char szWinName[] = "MyWin";
-char szTitle[] = "Sutherland-Cohen Line Clipping";
+char szTitle[] = "Cyrus Beck Line Clipping";
 
 int WINAPI WinMain (HINSTANCE hThisInst, HINSTANCE hPrevInst,
                     LPSTR lpszArgs, int nWinMode)
