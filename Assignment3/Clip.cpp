@@ -71,15 +71,18 @@ void scLineClip(POINT start, POINT end)
         
         //Three methods here
         drawLineSegment(gDrawData.hdcMem, start2, end2, CLR_BG);
+        if(!isLineOutsideClipBoundary(start,end)){
+        	
         drawLineSegment(gDrawData.hdcMem, start, end, CLR_LINE);
-        
-        //drawLineSegment(gDrawData.hdcMem, start2, start, CLR_BG);
-        //drawLineSegment(gDrawData.hdcMem, end2, end, CLR_BG);
-        
-  		performCorrectionAtClipPts(gDrawData.hdcMem, start,
+        	performCorrectionAtClipPts(gDrawData.hdcMem, start,
                              CLR_LINE, CLR_BG);
 		performCorrectionAtClipPts(gDrawData.hdcMem, end,
                              CLR_LINE, CLR_BG); 
+		}
+		
+        //drawLineSegment(gDrawData.hdcMem, start2, start, CLR_BG);
+        //drawLineSegment(gDrawData.hdcMem, end2, end, CLR_BG);
+       
         
 }
 
@@ -87,8 +90,11 @@ void clip(HWND hwnd)
 {
 	int i = 1;
 	for(i=1;i<=gDrawData.number;i++){
-		scLineClip(gDrawData.lineEndPts[i][0], gDrawData.lineEndPts[i][1]);
-  	}
+		if(isLineOutsideClipBoundary(gDrawData.lineEndPts[i][0], gDrawData.lineEndPts[i][1])){
+		drawLineSegment(gDrawData.hdcMem, gDrawData.lineEndPts[i][0], gDrawData.lineEndPts[i][1], CLR_BG);
+	}
+	scLineClip(gDrawData.lineEndPts[i][0], gDrawData.lineEndPts[i][1]);
+}
   	reDraw(hwnd);
   	setDrawMode(CLIPPED_MODE, hwnd);
 }

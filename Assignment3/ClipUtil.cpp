@@ -308,15 +308,15 @@ bool isLineWithinClipBoundary(POINT start, POINT end)
 
 bool isLineOutsideClipBoundary(POINT start, POINT end)
 {
-  if (((gDrawData.clipMin.x >= start.x) && 
-       (gDrawData.clipMin.x >= end.x)) ||
-      ((gDrawData.clipMax.x <= start.x) && 
-       (gDrawData.clipMax.x <= end.x)))
+  if (((gDrawData.beginPt[0].x >= start.x) && 
+       (gDrawData.beginPt[0].x >= end.x)) ||
+      ((gDrawData.endPt[0].x <= start.x) && 
+       (gDrawData.endPt[0].x <= end.x)))
     return true;
-  if (((gDrawData.clipMin.y >= start.y) && 
-       (gDrawData.clipMin.y >= end.y)) ||
-      ((gDrawData.clipMax.y <= start.y) && 
-       (gDrawData.clipMax.y <= end.y)))
+  if (((gDrawData.beginPt[0].y >= start.y) && 
+       (gDrawData.beginPt[0].y >= end.y)) ||
+      ((gDrawData.endPt[0].y <= start.y) && 
+       (gDrawData.endPt[0].y <= end.y)))
     return true;
   return false;
 }
