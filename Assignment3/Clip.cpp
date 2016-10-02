@@ -85,7 +85,10 @@ void scLineClip(POINT start, POINT end)
 
 void clip(HWND hwnd)
 {
-  scLineClip(gDrawData.lineEndPts[0], gDrawData.lineEndPts[1]);
-  reDraw(hwnd);
-  setDrawMode(CLIPPED_MODE, hwnd);
+	int i = 1;
+	for(i=1;i<=gDrawData.number;i++){
+		scLineClip(gDrawData.lineEndPts[i][0], gDrawData.lineEndPts[i][1]);
+  	}
+  	reDraw(hwnd);
+  	setDrawMode(CLIPPED_MODE, hwnd);
 }

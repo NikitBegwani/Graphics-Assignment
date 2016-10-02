@@ -27,13 +27,13 @@ typedef struct
   HDC hdcMem; 
   HBITMAP hbmp;
   MODE drawMode;
-  POINT beginPt, endPt;
+  POINT beginPt[11], endPt[11];
   POINT rectCornerPts[2];
   POINT clipMin, clipMax;
-  POINT lineEndPts[2];
+  POINT lineEndPts[11][2];
   SIZE maxBoundary;
-  int number;
-//  int count = -1;
+  int number = 1;
+  int count = 0;
 } DRAWING_DATA;
 
 extern DRAWING_DATA gDrawData; // global data

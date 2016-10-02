@@ -78,12 +78,15 @@ void createMemoryBitmap(HDC hdc)
 
 void initialize(HWND hwnd, HDC hdc)
 {
-  gDrawData.beginPt.x = gDrawData.beginPt.y = 0;
-  gDrawData.endPt.x = gDrawData.endPt.y = 0;
-  gDrawData.lineEndPts[0].x = 
-    gDrawData.lineEndPts[0].y = 0;
-  gDrawData.lineEndPts[1].x = 
-    gDrawData.lineEndPts[1].y = 0;
+ for(int i=0;i<=10;i++){
+
+  gDrawData.beginPt[i].x = gDrawData.beginPt[i].y = 0;
+  gDrawData.endPt[i].x = gDrawData.endPt[i].y = 0;
+  gDrawData.lineEndPts[i][0].x = 
+    gDrawData.lineEndPts[i][0].y = 0;
+  gDrawData.lineEndPts[i][1].x = 
+    gDrawData.lineEndPts[i][1].y = 0;
+}
   gDrawData.rectCornerPts[0].x = 
     gDrawData.rectCornerPts[0].y = 0;
   gDrawData.rectCornerPts[1].x = 
@@ -103,12 +106,15 @@ void cleanup()
 
 void reset(HWND hwnd)
 {
-  gDrawData.beginPt.x = gDrawData.beginPt.y = 0;
-  gDrawData.endPt.x = gDrawData.endPt.y = 0;
-  gDrawData.lineEndPts[0].x = 
-    gDrawData.lineEndPts[0].y = 0;
-  gDrawData.lineEndPts[1].x = 
-    gDrawData.lineEndPts[1].y = 0;
+ for(int i=0;i<=10;i++){
+
+  gDrawData.beginPt[i].x = gDrawData.beginPt[i].y = 0;
+  gDrawData.endPt[i].x = gDrawData.endPt[i].y = 0;
+  gDrawData.lineEndPts[i][0].x = 
+    gDrawData.lineEndPts[i][0].y = 0;
+  gDrawData.lineEndPts[i][1].x = 
+    gDrawData.lineEndPts[i][1].y = 0;
+}   
   gDrawData.rectCornerPts[0].x = 
     gDrawData.rectCornerPts[0].y = 0;
   gDrawData.rectCornerPts[1].x = 
@@ -137,25 +143,25 @@ void performRubberBanding(HWND hwnd, int x, int y)
   switch(gDrawData.drawMode)
   {
     case DRAW_LINE_MODE :
-      drawLineSegment(hdc, gDrawData.beginPt, 
-                      gDrawData.endPt, CLR_BG);
+      drawLineSegment(hdc, gDrawData.beginPt[gDrawData.count], 
+                      gDrawData.endPt[gDrawData.count], CLR_BG);
       drawRectangle(hdc,
                     gDrawData.rectCornerPts[0], 
                     gDrawData.rectCornerPts[1],
                     CLR_RECT); 
-      gDrawData.endPt.x = x;
-      gDrawData.endPt.y = y;
-      drawLineSegment(hdc, gDrawData.beginPt, 
-                      gDrawData.endPt, CLR_LINE); 
+      gDrawData.endPt[gDrawData.count].x = x;
+      gDrawData.endPt[gDrawData.count].y = y;
+      drawLineSegment(hdc, gDrawData.beginPt[gDrawData.count], 
+                      gDrawData.endPt[gDrawData.count], CLR_LINE); 
       break;
 
     case DRAW_RECTANGLE_MODE :
-      drawRectangle(hdc, gDrawData.beginPt, 
-                    gDrawData.endPt, CLR_BG);
-      gDrawData.endPt.x = x;
-      gDrawData.endPt.y = y;
-      drawRectangle(hdc, gDrawData.beginPt, 
-                    gDrawData.endPt, CLR_RECT);
+      drawRectangle(hdc, gDrawData.beginPt[0], 
+                    gDrawData.endPt[0], CLR_BG);
+      gDrawData.endPt[0].x = x;
+      gDrawData.endPt[0].y = y;
+      drawRectangle(hdc, gDrawData.beginPt[0], 
+                    gDrawData.endPt[0], CLR_RECT);
       break;
     default :
       break;
@@ -167,11 +173,23 @@ void processLeftButtonDown(HWND hwnd, int x, int y)
 {
   switch (gDrawData.drawMode)
   {
+  	case DRAW_RECTANGLE_MODE:
+  		gDrawData.beginPt[0].x = gDrawData.endPt[0].x = x;
+      	gDrawData.beginPt[0].y = gDrawData.endPt[0].y = y;
+      	reDraw(hwnd);
+      	break;
     case DRAW_LINE_MODE:
-    case DRAW_RECTANGLE_MODE:
-      gDrawData.beginPt.x = gDrawData.endPt.x = x;
-      gDrawData.beginPt.y = gDrawData.endPt.y = y;
-      reDraw(hwnd);
+        gDrawData.count++;
+        if(gDrawData.count<=gDrawData.number){
+	  
+	  		gDrawData.beginPt[gDrawData.count].x = gDrawData.endPt[gDrawData.count].x = x;
+      		gDrawData.beginPt[gDrawData.count].y = gDrawData.endPt[gDrawData.count].y = y;
+    	}
+      	else{
+	      	MessageBox(hwnd,"Max Number of lines reached", "EXIT", MB_YESNO);
+	  }
+	  
+	  //reDraw(hwnd);
       break;
 
     default:
@@ -196,23 +214,27 @@ void draw()
 {
   switch (gDrawData.drawMode)
   {
-    case DRAW_LINE_MODE:
-      gDrawData.lineEndPts[0].x = gDrawData.beginPt.x;
-      gDrawData.lineEndPts[0].y = gDrawData.beginPt.y;
+   case DRAW_LINE_MODE:
+    	
+    	for(int i=1;i<=gDrawData.number;i++){
+	  
+      		gDrawData.lineEndPts[i][0].x = gDrawData.beginPt[i].x;
+      		gDrawData.lineEndPts[i][0].y = gDrawData.beginPt[i].y;
 
-      gDrawData.lineEndPts[1].x = gDrawData.endPt.x;
-      gDrawData.lineEndPts[1].y = gDrawData.endPt.y;
+		    gDrawData.lineEndPts[i][1].x = gDrawData.endPt[i].x;
+	    	gDrawData.lineEndPts[i][1].y = gDrawData.endPt[i].y;
 
-      drawLineSegment(gDrawData.hdcMem, gDrawData.beginPt, 
-                      gDrawData.endPt, CLR_LINE);
-      break;
-
+    	  	drawLineSegment(gDrawData.hdcMem, gDrawData.beginPt[i], 
+                      gDrawData.endPt[i], CLR_LINE);
+		}	
+      	break;
+ 
     case DRAW_RECTANGLE_MODE:
-      gDrawData.rectCornerPts[0].x = gDrawData.beginPt.x;
-      gDrawData.rectCornerPts[0].y = gDrawData.beginPt.y;
+      gDrawData.rectCornerPts[0].x = gDrawData.beginPt[0].x;
+      gDrawData.rectCornerPts[0].y = gDrawData.beginPt[0].y;
 
-      gDrawData.rectCornerPts[1].x = gDrawData.endPt.x;
-      gDrawData.rectCornerPts[1].y = gDrawData.endPt.y;
+      gDrawData.rectCornerPts[1].x = gDrawData.endPt[0].x;
+      gDrawData.rectCornerPts[1].y = gDrawData.endPt[0].y;
       
       drawRectangle(gDrawData.hdcMem, 
         gDrawData.rectCornerPts[0], 
@@ -230,6 +252,8 @@ void processCommonCommand(int cmd, HWND hwnd)
   switch(cmd)
   {
     case ID_CLEAR:
+      gDrawData.count = 0;
+      gDrawData.number = 1;
       reset(hwnd);
       break;
     case ID_EXIT:
@@ -325,7 +349,7 @@ void processCommand(int cmd, HWND hwnd)
   {
     case ID_DRAW_LINE:
       DialogBox(NULL,"MyDB",hwnd,(DLGPROC)NumberOfLines);    
-      if (isValidRectangle(gDrawData.beginPt, gDrawData.endPt))
+      if (isValidRectangle(gDrawData.beginPt[0], gDrawData.endPt[0]))
       {
         //valid rectangle, then switch to next mode
         //draw the rectangle first as drawn through rubber banding
@@ -344,7 +368,7 @@ void processCommand(int cmd, HWND hwnd)
      break;
     case ID_CLIP:
       
-      if (isValidLine(gDrawData.beginPt, gDrawData.endPt))
+      if (isValidLine(gDrawData.beginPt[0], gDrawData.endPt[0]))
       {
         // valid line, then switch to next mode
         // draw the line first as drawn through rubber banding
