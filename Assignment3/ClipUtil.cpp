@@ -145,6 +145,8 @@ void performRubberBanding(HWND hwnd, int x, int y)
     case DRAW_LINE_MODE :
       drawLineSegment(hdc, gDrawData.beginPt[gDrawData.count], 
                       gDrawData.endPt[gDrawData.count], CLR_BG);
+    
+	
       drawRectangle(hdc,
                     gDrawData.rectCornerPts[0], 
                     gDrawData.rectCornerPts[1],
@@ -153,6 +155,12 @@ void performRubberBanding(HWND hwnd, int x, int y)
       gDrawData.endPt[gDrawData.count].y = y;
       drawLineSegment(hdc, gDrawData.beginPt[gDrawData.count], 
                       gDrawData.endPt[gDrawData.count], CLR_LINE); 
+    	for(int i = 1;i<=gDrawData.count;i++){
+	
+	  		drawLineSegment(hdc, gDrawData.beginPt[i], 
+                      gDrawData.endPt[i], CLR_LINE);
+    }
+    
       break;
 
     case DRAW_RECTANGLE_MODE :
