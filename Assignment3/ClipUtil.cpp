@@ -144,8 +144,7 @@ void performRubberBanding(HWND hwnd, int x, int y)
   {
     case DRAW_LINE_MODE :
       drawLineSegment(hdc, gDrawData.beginPt[gDrawData.count], 
-                      gDrawData.endPt[gDrawData.count], CLR_BG);
-    
+                      gDrawData.endPt[gDrawData.count], CLR_BG);   
 	
       drawRectangle(hdc,
                     gDrawData.rectCornerPts[0], 
@@ -194,7 +193,9 @@ void processLeftButtonDown(HWND hwnd, int x, int y)
       		gDrawData.beginPt[gDrawData.count].y = gDrawData.endPt[gDrawData.count].y = y;
     	}
       	else{
-	      	MessageBox(hwnd,"Max Number of lines reached", "EXIT", MB_YESNO);
+	      	 MessageBox(hwnd,
+         "Maximum Number of Lines reached", 
+         "Warning!", MB_OK);
 	  }
 	  
 	  //reDraw(hwnd);

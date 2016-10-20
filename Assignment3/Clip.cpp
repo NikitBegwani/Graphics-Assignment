@@ -2,15 +2,7 @@
 #include "Line.h"
 #include "ClipUtil.h"
 
-int code(double x, double y)
-{
-  return ( ((x < gDrawData.clipMin.x) << 3) +
-           ((x > gDrawData.clipMax.x) << 2) +
-           ((y < gDrawData.clipMin.y) << 1) +
-            (y > gDrawData.clipMax.y));
-}
-
-void scLineClip(POINT start, POINT end)
+void CyrusBeckLineClip(POINT start, POINT end)
 {
 	
  	int p[4],q[4],i,dx,dy,flag=1;
@@ -30,13 +22,13 @@ void scLineClip(POINT start, POINT end)
   
   
     if (p[0]==0)
-            if(q[0]*q[1]<=0)		//Point Clipping
+            if(q[0]*q[1]<=0)		//Parallel line to x axis outside
                 {
                   	drawNextLineSegment(end, CLR_BG);
      				return;
 				}
     if(p[2]==0)
-            if(q[2]*q[3]<=0)
+            if(q[2]*q[3]<=0)		//Parallel line to y axis outside
                 {
                   	drawNextLineSegment(end, CLR_BG);
      				return;
@@ -96,7 +88,7 @@ void clip(HWND hwnd)
 		if(isLineOutsideClipBoundary(gDrawData.lineEndPts[i][0], gDrawData.lineEndPts[i][1])){
 		drawLineSegment(gDrawData.hdcMem, gDrawData.lineEndPts[i][0], gDrawData.lineEndPts[i][1], CLR_BG);
 	}
-	scLineClip(gDrawData.lineEndPts[i][0], gDrawData.lineEndPts[i][1]);
+	CyrusBeckLineClip(gDrawData.lineEndPts[i][0], gDrawData.lineEndPts[i][1]);
 	reDraw(hwnd);
 }
   	reDraw(hwnd);
